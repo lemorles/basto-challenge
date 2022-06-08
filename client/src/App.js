@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
-import { Box, Button, Heading } from '@chakra-ui/react'
-import { getAnimalsService } from './services/animals';
+import Search from './components/Search';
+import Form from './components/Form';
 import AnimalList from './components/AnimalList';
+import { Box, Button, Heading } from '@chakra-ui/react'
+import { createAnimalService, getAnimalService, getAnimalsService, deleteAnimalService, updateAnimalService } from './services/animals';
 
 const App = () => {
   const [animals, setAnimals] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [animal, setAnimal] = useState(null);
 
   useEffect(() => {
     fetchAnimals();
@@ -16,13 +20,45 @@ const App = () => {
     setAnimals(res);
   }
 
-  const deleteAnimal = async () => {
-    console.log('delete')
+  const createAnimal = async (input) => {
+    const res = await createAnimalService(input);
+
+    if(res?.status === 201) {
+      fetchAnimals();
+    }
   }
 
-  const handleClickEdit = async () => {
-    console.log('open modal')
+  const editAnimal = async (id, input) => {
+    const res = await updateAnimalService(id, input);
+
+    if(res?.status === 200) {
+      fetchAnimals();
+    }
   }
+
+  const deleteAnimal = async (id) => {
+    const res = await deleteAnimalService(id);
+
+    if(res?.status === 200) {
+      fetchAnimals();
+    }
+  }
+
+  const handleClickEdit = async (id) => {
+    openModal();
+    const animal = await getAnimalService(id);
+
+    if(animal) setAnimal(animal);
+  }
+
+  const openModal = () => {
+    setOpen(true);
+  }
+
+  const closeModal = () => {
+    setOpen(false);
+    setAnimal(null);
+  } 
 
   return (
     <>
@@ -31,9 +67,19 @@ const App = () => {
         <Heading as={'h1'} mt={10} mb={5}>
           Gestión de ganado
         </Heading>
-        <Button colorScheme='green' mb={5}>
+        <Button colorScheme='green' onClick={openModal} mb={5}>
           Nuevo ganado
         </Button>
+        <Search />
+        {
+          open && <Form 
+            open={open} 
+            onClose={closeModal} 
+            animal={animal} 
+            createAnimal={createAnimal}
+            editAnimal={editAnimal}
+          />
+        }
         <Heading as={'h2'} size={'lg'} mb={5}>
           Lista de ganado
         </Heading>
