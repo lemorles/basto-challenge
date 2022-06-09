@@ -151,6 +151,8 @@ const validate = (input) => {
 
   if (!input.name) {
     errors.name = 'El nombre de potrero es requerido';
+  } else if (input.name.length < 3) {
+    errors.name = 'El nombre de potrero debe tener al menos 3 caracteres';
   }
 
   if (!input.deviceType) {
