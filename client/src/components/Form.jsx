@@ -13,6 +13,7 @@ import {
   Button,
   ModalFooter,
   Stack,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 
 export default function Form({ open, onClose, animal, createAnimal, editAnimal }) {
@@ -24,6 +25,7 @@ export default function Form({ open, onClose, animal, createAnimal, editAnimal }
     deviceType: '',
     deviceId: '',
   });
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (animal) {
@@ -39,16 +41,18 @@ export default function Form({ open, onClose, animal, createAnimal, editAnimal }
   }, [animal])
 
   const handleChange = (e) => {
-    setInput({
-      ...input,
-      [e.target.name]: e.target.value,
-    });
+    setInput({ ...input, [e.target.name]: e.target.value });
+    setErrors(validate({ ...input, [e.target.name]: e.target.value }));
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    if(!animal) {
+    if (Object.keys(validate(input)).length) {
+      return setErrors(validate({ ...input, [e.target.name]: e.target.value }));
+    }
+
+    if (!animal) {
       createAnimal(input);
     } else {
       editAnimal(animal._id, input);
@@ -63,46 +67,52 @@ export default function Form({ open, onClose, animal, createAnimal, editAnimal }
       <ModalCloseButton />
       <ModalBody>
         <Stack as={'form'}>
-          <FormControl>
+          <FormControl isInvalid={errors.senasaId} >
             <FormLabel>ID Senasa</FormLabel>
-            <Input type="text" name="senasaId" value={input.senasaId} onChange={handleChange} maxLength="16" mb={2} />
+            <Input type="text" name="senasaId" value={input.senasaId} onChange={handleChange} maxLength="16" />
+            <FormErrorMessage>{errors && errors.senasaId}</FormErrorMessage>
           </FormControl>
 
-          <FormControl>
+          <FormControl isInvalid={errors.animalType} >
             <FormLabel>Tipo de animal</FormLabel>
-            <Select name="animalType" placeholder='Seleccione una opción' value={input.animalType} onChange={handleChange} mb={2} >
+            <Select name="animalType" placeholder='Seleccione una opción' value={input.animalType} onChange={handleChange} >
               {
                 ['Novillo', 'Toro', 'Vaquillona'].map((item, index) => (
                   <option key={index} value={item}>{item}</option>
                 ))
               }
             </Select>
+            <FormErrorMessage>{errors && errors.animalType}</FormErrorMessage>
           </FormControl>
 
-          <FormControl>
+          <FormControl isInvalid={errors.weight} >
             <FormLabel>Peso animal</FormLabel>
-            <Input type="number" name="weight" value={input.weight} onChange={handleChange} min="0" mb={2} />
+            <Input type="number" name="weight" value={input.weight} onChange={handleChange} min="0" />
+            <FormErrorMessage>{errors && errors.weight}</FormErrorMessage>
           </FormControl>
 
-          <FormControl>
+          <FormControl isInvalid={errors.name} >
             <FormLabel>Nombre de potrero</FormLabel>
-            <Input type="text" name="name" value={input.name} onChange={handleChange} maxLength="200" mb={2} />
+            <Input type="text" name="name" value={input.name} onChange={handleChange} maxLength="200" />
+            <FormErrorMessage>{errors && errors.name}</FormErrorMessage>
           </FormControl>
 
-          <FormControl>
+          <FormControl isInvalid={errors.deviceType} >
             <FormLabel>Tipo de dispositivo</FormLabel>
-            <Select name="deviceType" placeholder='Seleccione una opción' value={input.deviceType} onChange={handleChange} mb={2} >
+            <Select name="deviceType" placeholder='Seleccione una opción' value={input.deviceType} onChange={handleChange} >
               {
                 ['collar', 'caravana'].map((item, index) => (
                   <option key={index} value={item}>{item}</option>
                 ))
               }
             </Select>
+            <FormErrorMessage>{errors && errors.deviceType}</FormErrorMessage>
           </FormControl>
 
-          <FormControl>
+          <FormControl isInvalid={errors.deviceId} >
             <FormLabel>Número de dispositivo</FormLabel>
-            <Input type="text" name="deviceId" value={input.deviceId} onChange={handleChange} maxLength="8" mb={2} />
+            <Input type="text" name="deviceId" value={input.deviceId} onChange={handleChange} maxLength="8" />
+            <FormErrorMessage>{errors && errors.deviceId}</FormErrorMessage>
           </FormControl>
         </Stack >
       </ModalBody>
@@ -118,4 +128,40 @@ export default function Form({ open, onClose, animal, createAnimal, editAnimal }
       </ModalFooter>
     </ModalContent>
   </Modal>
+}
+
+const validate = (input) => {
+  const errors = {};
+
+  if (!input.senasaId) {
+    errors.senasaId = 'El ID Senasa es requerido';
+  } else if (input.senasaId.length !== 16) {
+    errors.senasaId = 'El ID Senasa debe tener 16 caracteres';
+  }
+
+  if (!input.animalType) {
+    errors.animalType = 'El tipo de animal es requerido';
+  }
+
+  if (!input.weight) {
+    errors.weight = 'El peso es requerido';
+  } else if (input.weight <= 0) {
+    errors.weight = 'El peso debe ser mayor a 0';
+  }
+
+  if (!input.name) {
+    errors.name = 'El nombre de potrero es requerido';
+  }
+
+  if (!input.deviceType) {
+    errors.deviceType = 'El tipo de dispositivo es requerido';
+  }
+
+  if (!input.deviceId) {
+    errors.deviceId = 'El número de dispositivo es requerido';
+  } else if (input.deviceId.length !== 8) {
+    errors.deviceId = 'El número de dispositivo debe tener 8 caracteres';
+  }
+
+  return errors;
 }
