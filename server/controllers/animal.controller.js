@@ -2,7 +2,11 @@ const Animal = require('../models/animal.model');
 
 const getAnimals = async (req, res) => {
   try {
-    const animals = await Animal.find();
+    const { name } = req.query;
+
+    const filter = name && { name: new RegExp(`${name}.*`, 'i') };
+
+    const animals = await Animal.find(filter);
 
     if (!animals.length) return res.status(404).json({ msg: 'Animals not found' });
 
