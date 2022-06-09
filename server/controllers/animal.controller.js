@@ -30,6 +30,11 @@ const getAnimal = async (req, res) => {
 
 const createAnimal = async (req, res) => {
   try {
+    const { senasaId } = req.body;
+
+    const found = await Animal.findOne({ senasaId });
+    if (found) return res.status(400).json({ msg: 'Animal already exists' });
+
     const newAnimal = new Animal(req.body);
     const savedAnimal = await newAnimal.save();
 
