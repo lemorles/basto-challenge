@@ -20,6 +20,11 @@ const App = () => {
     setAnimals(res);
   }
 
+  const filterAnimals = async (name) => {
+    const res = await getAnimalsService(name);
+    setAnimals(res)
+  }
+
   const createAnimal = async (input) => {
     const res = await createAnimalService(input);
 
@@ -70,7 +75,7 @@ const App = () => {
         <Button colorScheme='green' onClick={openModal} mb={5}>
           Nuevo ganado
         </Button>
-        <Search />
+        <Search filterAnimals={filterAnimals} />
         {
           open && <Form 
             open={open} 

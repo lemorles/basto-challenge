@@ -17,9 +17,10 @@ export const createAnimalService = async (input) => {
   }
 }
 
-export const getAnimalsService = async () => {
+export const getAnimalsService = async (name) => {
   try {
-    const res = await fetch(`${URL}/animals`);
+    const query = name ? `?name=${name}` : ''
+    const res = await fetch(`${URL}/animals${query}`);
     const data = await res.json();
 
     return data;
@@ -61,7 +62,6 @@ export const deleteAnimalService = async (id) => {
     const res = await fetch(`${URL}/animals/${id}`, {
       method: 'DELETE',
     });
-    console.log(res)
 
     return res;
   } catch (err) {
