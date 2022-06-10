@@ -1,19 +1,19 @@
 import { Box, Td, Tr } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 
-export default function AnimalItem({ _id,senasaId, animalType, weight, name, deviceType, deviceId, handleEdit, handleDelete }) {
+export default function AnimalItem({ animal, handleEdit, handleDelete }) {
   return (
     <Tr>
-      <Td>{senasaId}</Td>
-      <Td>{animalType}</Td>
-      <Td>{weight}</Td>
-      <Td>{name}</Td>
-      <Td>{deviceType}</Td>
-      <Td>{deviceId}</Td>
+      <Td>{animal.senasaId}</Td>
+      <Td>{animal.animalType}</Td>
+      <Td>{animal.weight}</Td>
+      <Td>{animal.name}</Td>
+      <Td>{animal.deviceType}</Td>
+      <Td>{animal.deviceId}</Td>
       <Td>
         <Box display={'flex'} justifyContent={'center'} gap={"10px"}>
-          <EditIcon cursor={'pointer'} color={'green.500'} onClick={() => handleEdit(_id)} />
-          <DeleteIcon cursor={'pointer'} color={'red.500'} onClick={() => handleDelete(_id)} />
+          <EditIcon cursor={'pointer'} color={'green.500'} onClick={() => handleEdit(animal._id)} />
+          <DeleteIcon cursor={'pointer'} color={'red.500'} onClick={() => handleDelete(animal._id)} />
         </Box>
       </Td>
     </Tr>
