@@ -28,7 +28,7 @@ const App = () => {
   const createAnimal = async (input) => {
     const res = await createAnimalService(input);
 
-    if(res?.status === 201) {
+    if (res?.status === 201) {
       fetchAnimals();
     }
   }
@@ -36,7 +36,7 @@ const App = () => {
   const editAnimal = async (id, input) => {
     const res = await updateAnimalService(id, input);
 
-    if(res?.status === 200) {
+    if (res?.status === 200) {
       fetchAnimals();
     }
   }
@@ -44,7 +44,7 @@ const App = () => {
   const deleteAnimal = async (id) => {
     const res = await deleteAnimalService(id);
 
-    if(res?.status === 200) {
+    if (res?.status === 200) {
       fetchAnimals();
     }
   }
@@ -53,7 +53,7 @@ const App = () => {
     openModal();
     const animal = await getAnimalService(id);
 
-    if(animal) setAnimal(animal);
+    if (animal) setAnimal(animal);
   }
 
   const openModal = () => {
@@ -63,7 +63,7 @@ const App = () => {
   const closeModal = () => {
     setOpen(false);
     setAnimal(null);
-  } 
+  }
 
   return (
     <>
@@ -77,28 +77,19 @@ const App = () => {
         </Button>
         <Search filterAnimals={filterAnimals} />
         {
-          open && <Form 
-            open={open} 
-            onClose={closeModal} 
-            animal={animal} 
+          open && <Form
+            open={open}
+            onClose={closeModal}
+            animal={animal}
             createAnimal={createAnimal}
             editAnimal={editAnimal}
           />
         }
-        <Heading as={'h2'} size={'lg'} mb={5}>
-          Lista de ganado
-        </Heading>
-        {
-          animals && animals.length ? (
-            <AnimalList
-              animals={animals}
-              handleEdit={handleClickEdit}
-              handleDelete={deleteAnimal}
-            />
-          ) : (
-            <>No hay ganano cargado</>
-          )
-        }
+        <AnimalList
+          animals={animals}
+          handleEdit={handleClickEdit}
+          handleDelete={deleteAnimal}
+        />
       </Box>
     </>
   );
