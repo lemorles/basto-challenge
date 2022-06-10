@@ -1,9 +1,13 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import App from '../App';
 
 beforeEach(() => {
   // eslint-disable-next-line testing-library/no-render-in-setup
-  render(<App />);
+  render(<MemoryRouter>
+    <App />
+  </MemoryRouter>
+  );
 })
 
 describe('App', () => {
