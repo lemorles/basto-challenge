@@ -63,7 +63,7 @@ export default function Form({ open, onClose, animal, createAnimal, editAnimal }
   return <Modal isOpen={open} onClose={onClose}>
     <ModalOverlay />
     <ModalContent>
-      <ModalHeader>{!animal ? 'Nuevo Ganado' : 'Editar ganado'}</ModalHeader>
+      <ModalHeader as={'h2'}>{!animal ? 'Nuevo Ganado' : 'Editar ganado'}</ModalHeader>
       <ModalCloseButton />
       <ModalBody>
         <Stack as={'form'}>
