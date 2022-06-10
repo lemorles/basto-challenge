@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, Input } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useState } from "react";
 
 export default function Search({ filterAnimals }) {
@@ -16,8 +16,17 @@ export default function Search({ filterAnimals }) {
 
   return (
     <FormControl as={'form'} onSubmit={handleSubmit} mt={5} mb={10} width={'40%'}>
-      <Box display={'flex'} alignItems={'center'} gap={5} >
-        <Input type={'text'} placeholder={'Nombre'} name='search' value={search} onChange={handleChange} />
+      <Box display={'flex'} alignItems={'flex-end'} gap={5} >
+        <FormLabel mb={0}>Buscar por nombre:
+          <Input
+            type={'text'}
+            placeholder={'Buscar por nombre'}
+            name='search'
+            value={search}
+            onChange={handleChange}
+            mt={2}
+          />
+        </FormLabel>
         <Button colorScheme={'green'} type={'submit'} >Buscar</Button>
       </Box>
     </FormControl>
