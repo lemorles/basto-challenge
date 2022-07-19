@@ -44,7 +44,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: build
-          path: build
+          path: ./client/build
   test:
     needs: [lint, build]
     runs-on: ubuntu-18.04
@@ -60,6 +60,6 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: build
-          path: build
+          path: ./client/build
       - name: Test
         run: cd client && npm test
