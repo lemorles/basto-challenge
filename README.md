@@ -1,3 +1,5 @@
+[![Pipeline Pre Deployment](https://github.com/lemorles/basto-challenge/actions/workflows/pipeline.yml/badge.svg)](https://github.com/lemorles/basto-challenge/actions/workflows/pipeline.yml)
+
 # Bastó Challenge
 
 El desafío consta de la creación de un formulario CRUD (Altas, Bajas, Modificaciones) de datos de vacas utilizando las siguientes tecnologías: 
