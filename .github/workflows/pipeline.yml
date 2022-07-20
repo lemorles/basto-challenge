@@ -1,11 +1,9 @@
 name: Pipeline Pre Deployment
 
 on: 
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
-    types: [opened, synchronize]
+    types: [opened, synchronize, reopened]
 
 jobs:
   avoid_reduncy:
