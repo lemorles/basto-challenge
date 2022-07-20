@@ -15,21 +15,7 @@ jobs:
         uses: styfle/cancel-workflow-action@0.9.1
         with:
           access_token: ${{github.token}}
-  install_client:
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v2
-        with:
-          cache: 'npm'
-          cache-dependency-path: './client/package-lock.json'
-          node-version: '14.16.0'
-      - name: Install dependencies
-        run: cd client && npm ci
   lint_client:
-    needs: [install_client]
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -45,7 +31,6 @@ jobs:
       - name: Lint
         run: cd client && npm run lint
   build_client:
-    needs: [install_client]
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -76,21 +61,7 @@ jobs:
         run: cd client && npm ci
       - name: Test
         run: cd client && npm test
-  install_backend:
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v2
-        with:
-          cache: 'npm'
-          cache-dependency-path: './server/package-lock.json'
-          node-version: '14.16.0'
-      - name: Install dependencies
-        run: cd server && npm ci
   test_backend:
-    needs: [install_backend]
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
