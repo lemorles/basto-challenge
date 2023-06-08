@@ -1,75 +1,75 @@
 name: Pipeline Pre Deployment
 
-on: 
+on:
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened]
 
 jobs:
   avoid_reduncy:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
         with:
           access_token: ${{github.token}}
   lint_client:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v2
         with:
-          cache: 'npm'
-          cache-dependency-path: './client/package-lock.json'
-          node-version: '14.16.0'
+          cache: "npm"
+          cache-dependency-path: "./client/package-lock.json"
+          node-version: "14.16.0"
       - name: Install dependencies
         run: cd client && npm ci
       - name: Lint
         run: cd client && npm run lint
   build_client:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v2
         with:
-          cache: 'npm'
-          cache-dependency-path: './client/package-lock.json'
-          node-version: '14.16.0'
+          cache: "npm"
+          cache-dependency-path: "./client/package-lock.json"
+          node-version: "14.16.0"
       - name: Install dependencies
         run: cd client && npm ci
       - name: Build
         run: cd client && npm run build
   test_client:
     needs: [lint_client, build_client]
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v2
         with:
-          cache: 'npm'
-          cache-dependency-path: './client/package-lock.json'
-          node-version: '14.16.0'
+          cache: "npm"
+          cache-dependency-path: "./client/package-lock.json"
+          node-version: "14.16.0"
       - name: Install dependencies
         run: cd client && npm ci
       - name: Test
         run: cd client && npm test
   test_backend:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v2
         with:
-          cache: 'npm'
-          cache-dependency-path: './server/package-lock.json'
-          node-version: '14.16.0'
+          cache: "npm"
+          cache-dependency-path: "./server/package-lock.json"
+          node-version: "14.16.0"
       - name: Install dependencies
         run: cd server && npm ci
       - name: Test
