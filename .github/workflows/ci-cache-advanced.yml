@@ -23,13 +23,13 @@ jobs:
         with:
           node-version: "16.16.0"
       - name: Get node_modules cache
-        id: cache
+        id: client-cache
         uses: actions/cache@v3
         with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-cache-${{ hashFiles('**/package-lock.json') }}
+          path: client/node_modules
+          key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.client-cache.outputs.cache-hit != 'true'
         run: cd client && npm ci
       - name: Lint
         run: cd client && npm run lint
@@ -43,13 +43,13 @@ jobs:
         with:
           node-version: "16.16.0"
       - name: Get node_modules cache
-        id: cache
+        id: client-cache
         uses: actions/cache@v3
         with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-cache-${{ hashFiles('**/package-lock.json') }}
+          path: client/node_modules
+          key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.client-cache.outputs.cache-hit != 'true'
         run: cd client && npm ci
       - name: Build
         run: cd client && npm run build
@@ -64,13 +64,13 @@ jobs:
         with:
           node-version: "16.16.0"
       - name: Get node_modules cache
-        id: cache
+        id: client-cache
         uses: actions/cache@v3
         with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-cache-${{ hashFiles('**/package-lock.json') }}
+          path: client/node_modules
+          key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.client-cache.outputs.cache-hit != 'true'
         run: cd client && npm ci
       - name: Test
         run: cd client && npm test
@@ -84,13 +84,13 @@ jobs:
         with:
           node-version: "16.16.0"
       - name: Get node_modules cache
-        id: cache
+        id: server-cache
         uses: actions/cache@v3
         with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-cache-${{ hashFiles('**/package-lock.json') }}
+          path: server/node_modules
+          key: ${{ runner.os }}-server-${{ hashFiles('server/package-lock.json') }}
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.server-cache.outputs.cache-hit != 'true'
         run: cd server && npm ci
       - name: Test
         run: cd server && npm test
