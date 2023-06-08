@@ -26,10 +26,8 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: |
-            client/node_modules
-            server/node_modules
-          key: cache-${{ hashFiles('**/lockfiles') }}
+          path: "**/node_modules"
+          key: ${{ runner.os }}-cache-${{ hashFiles('**/lockfiles') }}
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: cd client && npm ci
@@ -48,10 +46,8 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: |
-            client/node_modules
-            server/node_modules
-          key: cache-${{ hashFiles('**/lockfiles') }}
+          path: "**/node_modules"
+          key: ${{ runner.os }}-cache-${{ hashFiles('**/lockfiles') }}
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: cd client && npm ci
@@ -71,10 +67,8 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: |
-            client/node_modules
-            server/node_modules
-          key: cache-${{ hashFiles('**/lockfiles') }}
+          path: "**/node_modules"
+          key: ${{ runner.os }}-cache-${{ hashFiles('**/lockfiles') }}
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: cd client && npm ci
@@ -93,10 +87,8 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: |
-            client/node_modules
-            server/node_modules
-          key: cache-${{ hashFiles('**/lockfiles') }}
+          path: "**/node_modules"
+          key: ${{ runner.os }}-cache-${{ hashFiles('**/lockfiles') }}
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: cd server && npm ci
