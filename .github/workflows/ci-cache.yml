@@ -23,7 +23,7 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: "npm"
-          cache-dependency-path: "**/package-lock.json"
+          cache-dependency-path: "client/package-lock.json"
       - name: Install dependencies
         run: cd client && npm ci
       - name: Lint
@@ -38,7 +38,7 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: "npm"
-          cache-dependency-path: "**/package-lock.json"
+          cache-dependency-path: "client/package-lock.json"
       - name: Install dependencies
         run: cd client && npm ci
       - name: Build
@@ -54,7 +54,7 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: "npm"
-          cache-dependency-path: "**/package-lock.json"
+          cache-dependency-path: "client/package-lock.json"
       - name: Install dependencies
         run: cd client && npm ci
       - name: Test
@@ -69,7 +69,7 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: "npm"
-          cache-dependency-path: "**/package-lock.json"
+          cache-dependency-path: "server/package-lock.json"
       - name: Install dependencies
         run: cd server && npm ci
       - name: Test
