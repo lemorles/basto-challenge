@@ -28,7 +28,7 @@ jobs:
           path: client/node_modules
           key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
       - name: Install dependencies
-        run: cd client && npm install
+        run: cd client && npm install --no-audit --no-fund
       - name: Lint
         run: cd client && npm run lint
   build_client:
@@ -46,7 +46,7 @@ jobs:
           path: client/node_modules
           key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
       - name: Install dependencies
-        run: cd client && npm install
+        run: cd client && npm install --no-audit --no-fund
       - name: Build
         run: cd client && npm run build
   test_client:
@@ -65,7 +65,7 @@ jobs:
           path: client/node_modules
           key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
       - name: Install dependencies
-        run: cd client && npm install
+        run: cd client && npm install --no-audit --no-fund
       - name: Test
         run: cd client && npm test
   test_backend:
@@ -83,6 +83,6 @@ jobs:
           path: server/node_modules
           key: ${{ runner.os }}-server-${{ hashFiles('server/package-lock.json') }}
       - name: Install dependencies
-        run: cd server && npm install
+        run: cd server && npm install --no-audit --no-fund
       - name: Test
         run: cd server && npm test
