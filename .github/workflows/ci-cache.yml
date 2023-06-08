@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
+        uses: styfle/cancel-workflow-action@0.11.0
         with:
           access_token: ${{github.token}}
   lint_client:
@@ -22,13 +22,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "16.16.0"
-      - name: Get node_modules cache
-        uses: actions/cache@v3
-        with:
-          path: client/node_modules
-          key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
+          cache: "npm"
+          cache-dependency-path: client/package-lock.json
       - name: Install dependencies
-        run: cd client && npm install --no-audit --no-fund
+        run: cd client && npm install
       - name: Lint
         run: cd client && npm run lint
   build_client:
@@ -40,13 +37,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "16.16.0"
-      - name: Get node_modules cache
-        uses: actions/cache@v3
-        with:
-          path: client/node_modules
-          key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
+          cache: "npm"
+          cache-dependency-path: client/package-lock.json
       - name: Install dependencies
-        run: cd client && npm install --no-audit --no-fund
+        run: cd client && npm install
       - name: Build
         run: cd client && npm run build
   test_client:
@@ -59,13 +53,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "16.16.0"
-      - name: Get node_modules cache
-        uses: actions/cache@v3
-        with:
-          path: client/node_modules
-          key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
+          cache: "npm"
+          cache-dependency-path: client/package-lock.json
       - name: Install dependencies
-        run: cd client && npm install --no-audit --no-fund
+        run: cd client && npm install
       - name: Test
         run: cd client && npm test
   test_backend:
@@ -77,12 +68,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "16.16.0"
-      - name: Get node_modules cache
-        uses: actions/cache@v3
-        with:
-          path: server/node_modules
-          key: ${{ runner.os }}-server-${{ hashFiles('server/package-lock.json') }}
+          cache: "npm"
+          cache-dependency-path: server/package-lock.json
       - name: Install dependencies
-        run: cd server && npm install --no-audit --no-fund
+        run: cd server && npm install
       - name: Test
         run: cd server && npm test
