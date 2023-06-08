@@ -29,8 +29,8 @@ jobs:
           path: client/node_modules
           key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
           restore-keys: |
-            client-${{ hashFiles('client-package-lock.json') }}
-            client-
+            ${{ runner.os }}-client-${{ hashFiles('client-package-lock.json') }}
+            ${{ runner.os }}-client-
       - name: Install dependencies
         if: steps.client-cache.outputs.cache-hit != 'true'
         run: cd client && npm ci
@@ -52,8 +52,8 @@ jobs:
           path: client/node_modules
           key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
           restore-keys: |
-            client-${{ hashFiles('client-package-lock.json') }}
-            client-
+            ${{ runner.os }}-client-${{ hashFiles('client-package-lock.json') }}
+            ${{ runner.os }}-client-
       - name: Install dependencies
         if: steps.client-cache.outputs.cache-hit != 'true'
         run: cd client && npm ci
@@ -76,8 +76,8 @@ jobs:
           path: client/node_modules
           key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
           restore-keys: |
-            client-${{ hashFiles('client-package-lock.json') }}
-            client-
+            ${{ runner.os }}-client-${{ hashFiles('client-package-lock.json') }}
+            ${{ runner.os }}-client-
       - name: Install dependencies
         if: steps.client-cache.outputs.cache-hit != 'true'
         run: cd client && npm ci
@@ -99,8 +99,8 @@ jobs:
           path: server/node_modules
           key: ${{ runner.os }}-server-${{ hashFiles('server/package-lock.json') }}
           restore-keys: |
-            server-${{ hashFiles('server-package-lock.json') }}
-            server-
+            ${{ runner.os }}-server-${{ hashFiles('server-package-lock.json') }}
+            ${{ runner.os }}-server-
       - name: Install dependencies
         if: steps.server-cache.outputs.cache-hit != 'true'
         run: cd server && npm ci
