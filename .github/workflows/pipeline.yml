@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened]
-# test cache
+
 jobs:
   avoid_reduncy:
     runs-on: ubuntu-20.04
