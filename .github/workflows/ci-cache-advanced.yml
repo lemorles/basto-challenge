@@ -23,12 +23,14 @@ jobs:
         with:
           node-version: "16.16.0"
       - name: Get node_modules cache
+        id: client-cache
         uses: actions/cache@v3
         with:
           path: client/node_modules
           key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
       - name: Install dependencies
-        run: cd client && npm install --no-audit --no-fund
+        if: steps.client-cache.outputs.cache-hit != 'true'
+        run: cd client && npm ci
       - name: Lint
         run: cd client && npm run lint
   build_client:
@@ -41,12 +43,14 @@ jobs:
         with:
           node-version: "16.16.0"
       - name: Get node_modules cache
+        id: client-cache
         uses: actions/cache@v3
         with:
           path: client/node_modules
           key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
       - name: Install dependencies
-        run: cd client && npm install --no-audit --no-fund
+        if: steps.client-cache.outputs.cache-hit != 'true'
+        run: cd client && npm ci
       - name: Build
         run: cd client && npm run build
   test_client:
@@ -60,12 +64,14 @@ jobs:
         with:
           node-version: "16.16.0"
       - name: Get node_modules cache
+        id: client-cache
         uses: actions/cache@v3
         with:
           path: client/node_modules
           key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
       - name: Install dependencies
-        run: cd client && npm install --no-audit --no-fund
+        if: steps.client-cache.outputs.cache-hit != 'true'
+        run: cd client && npm ci
       - name: Test
         run: cd client && npm test
   test_backend:
@@ -78,11 +84,13 @@ jobs:
         with:
           node-version: "16.16.0"
       - name: Get node_modules cache
+        id: server-cache
         uses: actions/cache@v3
         with:
           path: server/node_modules
           key: ${{ runner.os }}-server-${{ hashFiles('server/package-lock.json') }}
       - name: Install dependencies
-        run: cd server && npm install --no-audit --no-fund
+        if: steps.server-cache.outputs.cache-hit != 'true'
+        run: cd server && npm ci
       - name: Test
         run: cd server && npm test
