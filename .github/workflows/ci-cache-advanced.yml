@@ -23,15 +23,15 @@ jobs:
         with:
           node-version: "16.16.0"
       - name: Get node_modules cache
-        id: client-cache
+        id: cache
         uses: actions/cache@v3
         with:
-          path: client/node_modules
-          key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-client-
+          path: |
+            client/node_modules
+            server/node_modules
+          key: cache-${{ hashFiles('**/lockfiles') }}
       - name: Install dependencies
-        if: steps.client-cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit != 'true'
         run: cd client && npm ci
       - name: Lint
         run: cd client && npm run lint
@@ -45,15 +45,15 @@ jobs:
         with:
           node-version: "16.16.0"
       - name: Get node_modules cache
-        id: client-cache
+        id: cache
         uses: actions/cache@v3
         with:
-          path: client/node_modules
-          key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-client-
+          path: |
+            client/node_modules
+            server/node_modules
+          key: cache-${{ hashFiles('**/lockfiles') }}
       - name: Install dependencies
-        if: steps.client-cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit != 'true'
         run: cd client && npm ci
       - name: Build
         run: cd client && npm run build
@@ -68,15 +68,15 @@ jobs:
         with:
           node-version: "16.16.0"
       - name: Get node_modules cache
-        id: client-cache
+        id: cache
         uses: actions/cache@v3
         with:
-          path: client/node_modules
-          key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-client-
+          path: |
+            client/node_modules
+            server/node_modules
+          key: cache-${{ hashFiles('**/lockfiles') }}
       - name: Install dependencies
-        if: steps.client-cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit != 'true'
         run: cd client && npm ci
       - name: Test
         run: cd client && npm test
@@ -90,15 +90,15 @@ jobs:
         with:
           node-version: "16.16.0"
       - name: Get node_modules cache
-        id: server-cache
+        id: cache
         uses: actions/cache@v3
         with:
-          path: server/node_modules
-          key: ${{ runner.os }}-server-${{ hashFiles('server/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-server-
+          path: |
+            client/node_modules
+            server/node_modules
+          key: cache-${{ hashFiles('**/lockfiles') }}
       - name: Install dependencies
-        if: steps.server-cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit != 'true'
         run: cd server && npm ci
       - name: Test
         run: cd server && npm test
