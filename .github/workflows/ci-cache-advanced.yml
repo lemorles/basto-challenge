@@ -1,0 +1,108 @@
+name: ci cache advanced
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  avoid_reduncy:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.11.0
+        with:
+          access_token: ${{github.token}}
+  lint_client:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16.16.0"
+      - name: Get node_modules cache
+        id: client-cache
+        uses: actions/cache@v3
+        with:
+          path: client/node_modules
+          key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
+          # restore-keys: |
+          #   ${{ runner.os }}-client-${{ hashFiles('client-package-lock.json') }}
+          #   ${{ runner.os }}-client-
+      - name: Install dependencies
+        if: steps.client-cache.outputs.cache-hit != 'true'
+        run: cd client && npm ci
+      - name: Lint
+        run: cd client && npm run lint
+  build_client:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16.16.0"
+      - name: Get node_modules cache
+        id: client-cache
+        uses: actions/cache@v3
+        with:
+          path: client/node_modules
+          key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
+          # restore-keys: |
+          #   ${{ runner.os }}-client-${{ hashFiles('client-package-lock.json') }}
+          #   ${{ runner.os }}-client-
+      - name: Install dependencies
+        if: steps.client-cache.outputs.cache-hit != 'true'
+        run: cd client && npm ci
+      - name: Build
+        run: cd client && npm run build
+  test_client:
+    needs: [lint_client, build_client]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16.16.0"
+      - name: Get node_modules cache
+        id: client-cache
+        uses: actions/cache@v3
+        with:
+          path: client/node_modules
+          key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
+          # restore-keys: |
+          #   ${{ runner.os }}-client-${{ hashFiles('client-package-lock.json') }}
+          #   ${{ runner.os }}-client-
+      - name: Install dependencies
+        if: steps.client-cache.outputs.cache-hit != 'true'
+        run: cd client && npm ci
+      - name: Test
+        run: cd client && npm test
+  test_backend:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16.16.0"
+      - name: Get node_modules cache
+        id: server-cache
+        uses: actions/cache@v3
+        with:
+          path: server/node_modules
+          key: ${{ runner.os }}-server-${{ hashFiles('server/package-lock.json') }}
+          # restore-keys: |
+          #   ${{ runner.os }}-server-${{ hashFiles('server-package-lock.json') }}
+          #   ${{ runner.os }}-server-
+      - name: Install dependencies
+        if: steps.server-cache.outputs.cache-hit != 'true'
+        run: cd server && npm ci
+      - name: Test
+        run: cd server && npm test
