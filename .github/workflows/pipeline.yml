@@ -21,11 +21,17 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          cache: "npm"
-          cache-dependency-path: client/package-lock.json
           node-version: "16.16.0"
+      - name: Get node_modules cache
+        uses: actions/cache@v3
+        with:
+          path: client/node_modules
+          key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-client-
+            ${{ runner.os }}-
       - name: Install dependencies
-        run: cd client && npm ci --production
+        run: cd client && npm install --no-audit --no-fund
       - name: Lint
         run: cd client && npm run lint
   build_client:
@@ -36,11 +42,17 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          cache: "npm"
-          cache-dependency-path: client/package-lock.json
           node-version: "16.16.0"
+      - name: Get node_modules cache
+        uses: actions/cache@v3
+        with:
+          path: client/node_modules
+          key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-client-
+            ${{ runner.os }}-
       - name: Install dependencies
-        run: cd client && npm ci --production
+        run: cd client && npm install --no-audit --no-fund
       - name: Build
         run: cd client && npm run build
   test_client:
@@ -52,11 +64,17 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          cache: "npm"
-          cache-dependency-path: client/package-lock.json
           node-version: "16.16.0"
+      - name: Get node_modules cache
+        uses: actions/cache@v3
+        with:
+          path: client/node_modules
+          key: ${{ runner.os }}-client-${{ hashFiles('client/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-client-
+            ${{ runner.os }}-
       - name: Install dependencies
-        run: cd client && npm ci --production
+        run: cd client && npm install --no-audit --no-fund
       - name: Test
         run: cd client && npm test
   test_backend:
@@ -67,10 +85,13 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          cache: "npm"
-          cache-dependency-path: server/package-lock.json
           node-version: "16.16.0"
+      - name: Get node_modules cache
+        uses: actions/cache@v3
+        with:
+          path: server/node_modules
+          key: ${{ runner.os }}-server-${{ hashFiles('server/package-lock.json') }}
       - name: Install dependencies
-        run: cd server && npm ci --production
+        run: cd server && npm install --no-audit --no-fund
       - name: Test
         run: cd server && npm test
