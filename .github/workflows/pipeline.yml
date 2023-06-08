@@ -25,7 +25,7 @@ jobs:
           cache-dependency-path: client/package-lock.json
           node-version: "16.16.0"
       - name: Install dependencies
-        run: cd client && npm install --not-audit --no-fund
+        run: cd client && npm install --no-audit --no-fund
       - name: Lint
         run: cd client && npm run lint
   build_client:
@@ -40,7 +40,7 @@ jobs:
           cache-dependency-path: client/package-lock.json
           node-version: "16.16.0"
       - name: Install dependencies
-        run: cd client && npm install --not-audit --no-fund
+        run: cd client && npm install --no-audit --no-fund
       - name: Build
         run: cd client && npm run build
   test_client:
@@ -56,7 +56,7 @@ jobs:
           cache-dependency-path: client/package-lock.json
           node-version: "16.16.0"
       - name: Install dependencies
-        run: cd client && npm install --not-audit --no-fund
+        run: cd client && npm install --no-audit --no-fund
       - name: Test
         run: cd client && npm test
   test_backend:
@@ -71,6 +71,6 @@ jobs:
           cache-dependency-path: server/package-lock.json
           node-version: "16.16.0"
       - name: Install dependencies
-        run: cd server && npm install --not-audit --no-fund
+        run: cd server && npm install --no-audit --no-fund
       - name: Test
         run: cd server && npm test
